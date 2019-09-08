@@ -54,5 +54,37 @@ function appendPageLinks(list) {
 		});
 	}
 }
+
+//1. Create and append HTML dynamically for Search Bar
+const pageHeader = document.querySelector('div.page-header');
+const searchDiv = document.createElement('div');
+pageHeader.append(searchDiv);
+searchDiv.className = 'student-search';
+
+const input = document.createElement('input');
+input.setAttribute('placeholder', 'Search for students...');
+
+const button = document.createElement('button');
+button.textContent = 'Search';
+
+searchDiv.append(input);
+searchDiv.append(button);
+
+//2. Add functionality to the Search Bar
+/* When the "Search" button is clicked, the list is filtered by student name for those that include 
+the search value. */
+
+//add keyup event listener to the search input
+//add click event listener to the search button
+
+//3. Paginate seach results
+
+// Display pagination based on how many results are returned, 10 per page
+
+//4. Handle no results returned
+
+//If no matches are found, include a message in the HTML, "no results" must be printed to the page
+
+// *----------------------------------------*//
 showPage(studentList, 1);
 appendPageLinks(studentList);
