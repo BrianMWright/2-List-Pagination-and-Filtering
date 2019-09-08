@@ -2,7 +2,9 @@
 const studentList = document.querySelectorAll('.student-item');
 const itemsPerPage = 10;
 
+//This function shows 10 items per page from the passed in list
 function showPage(list, page) {
+	//index being with 0 - 10 for page 1, 10 - 20 for page 2, etc.
 	let startIndex = page * itemsPerPage - itemsPerPage;
 	console.log(`Start Index: ${startIndex}`); // REMOVE ME
 	let endIndex = page * itemsPerPage;
@@ -16,48 +18,41 @@ function showPage(list, page) {
 		}
 	}
 }
-
+// This fucntion creates, selects and appends list items to the page as needed
 function appendPageLinks(list) {
-	//create DOM elements
-	// grab parent node to attach to
 	const divPage = document.querySelector('div.page');
-	//create element
 	const div = document.createElement('div');
-	//add class to element
-	div.className = 'pagination';
-	//append element
-	divPage.append(div);
-	const ul = document.createElement('ul');
-	div.append(ul);
-	//creat the lis
+	//Can't display partial pages. Ensures that the number returned is rounded up without any weird rounding errors
 	const pagesNeeded = Math.ceil(list.length / itemsPerPage);
+	const ul = document.createElement('ul');
+
+	div.className = 'pagination';
+	divPage.append(div);
+	div.append(ul);
 
 	for (i = 0; i < pagesNeeded; i++) {
 		let li = document.createElement('li');
 		let a = document.createElement('a');
-		//add the active class to the first pagination link - BUG : NEED A BETTER WAY TO DO THIS!
+		//add the active class to the first pagination link
 		if (i === 0) {
 			a.className = 'active';
 		}
 		a.setAttribute('href', '#');
-		a.textContent = `${i + 1}`; //need to get the page number somehow
+		a.textContent = `${i + 1}`;
 		ul.append(li);
 		li.append(a);
 
+		//remove the 'active' class from all elements and add it to the page element that is clicked
 		a.addEventListener('click', (e) => {
-			//active class name removed from all
 			let allActive = document.querySelectorAll('.active');
 
 			for (let i = 0; i < allActive.length; i++) {
 				allActive[i].classList.remove('active');
 				e.target.className = 'active';
 			}
-			//active class name added to clicked element. use target property of event object
-
 			showPage(studentList, a.textContent);
 		});
 	}
 }
-
-showPage(studentList, 1); //Remove hard coded page number.
+showPage(studentList, 1);
 appendPageLinks(studentList);
