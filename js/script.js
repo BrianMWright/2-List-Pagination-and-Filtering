@@ -72,49 +72,48 @@ searchDiv.append(button);
 When the "Search" button is clicked, the list is filtered by student name for those that include 
 the search value. */
 
-//add keyup event listener to the search INPUT BOX
-
 //We'll need to store the number of search results returned to use for pagination
 let resultCount = 0;
-
-const studentListArr = Array.from(studentList);
-
-// 	//Should I use Show Page function?
+const studentmatches = [];
 
 function search(searchInput) {
-	//Do I need to go through and remove any existing elements with the .match class?
+	/* I created a new array with JUST the student names to search through, however I'm displaying
+	the results tied with their corresponding index in the studentList variable. */
 
+	const studentNames = document.querySelectorAll('h3');
+	const studentListArr = Array.from(studentNames);
+	const studentMatches = [];
+
+	//Searching through the list of names and displaying matches based on the value the user inputs into the search box
 	for (let i = 0; i < studentListArr.length; i++) {
 		if (
 			searchInput.length !== 0 &&
 			studentListArr[i].textContent.toLowerCase().includes(searchInput.toLowerCase())
 		) {
-			// studentList[i].classList.add('match');
-			studentListArr[i].style.display = 'block';
-			resultCount += 1;
+			studentList[i].style.display = 'block';
+			studentMatches.push(studentList[i]);
 		} else {
-			//FIX ME: ADDING THE HTML IS A PROBLEM WHEN SEARCHING MORE THAN ONCE
-			studentListArr[i].style.display = 'none';
-			// const divPage = document.querySelector('div.page');
-			// let noMatchMessage = document.createElement('h3');
-			// noMatchMessage.textContent = 'No results found';
-			// divPage.append(noMatchMessage);
+			studentList[i].style.display = 'none';
 		}
 	}
-	// document.querySelector('.match').style.display = 'block';
-	console.log(resultCount);
+	console.log(studentMatches);
+	console.log(studentMatches.length);
+
+	//Display pagination based on search results
+	appendPageLinks(studentMatches);
+	// HELP! somehow I need to remove the starting state of pagination for each search
 }
-//add click event listener to the search BUTTON
+
+//allows search results to return in real time as user types in the seach box
+input.addEventListener('keyup', () => {
+	search(input.value);
+});
+//returns search results after the Search button is clicked
 button.addEventListener('click', () => {
 	search(input.value);
 });
 
-//3. Paginate seach results
-
-// Display pagination based on how many results are returned, 10 per page
-
 //4. Handle no results returned
-
 //If no matches are found, include a message in the HTML, "no results" must be printed to the page
 
 // *----------------------------------------*//
