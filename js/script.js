@@ -6,9 +6,7 @@ const itemsPerPage = 10;
 function showPage(list, page) {
 	//index being with 0 - 10 for page 1, 10 - 20 for page 2, etc.
 	let startIndex = page * itemsPerPage - itemsPerPage;
-	console.log(`Start Index: ${startIndex}`); // REMOVE ME
 	let endIndex = page * itemsPerPage;
-	console.log(`End Index: ${endIndex}`); // REMOVE ME
 
 	for (let i = 0; i < list.length; i++) {
 		if (i >= startIndex && i < endIndex) {
@@ -70,12 +68,46 @@ button.textContent = 'Search';
 searchDiv.append(input);
 searchDiv.append(button);
 
-//2. Add functionality to the Search Bar
-/* When the "Search" button is clicked, the list is filtered by student name for those that include 
+/*2. Add functionality to the Search Bar
+When the "Search" button is clicked, the list is filtered by student name for those that include 
 the search value. */
 
-//add keyup event listener to the search input
-//add click event listener to the search button
+//add keyup event listener to the search INPUT BOX
+
+//We'll need to store the number of search results returned to use for pagination
+let resultCount = 0;
+
+const studentListArr = Array.from(studentList);
+
+// 	//Should I use Show Page function?
+
+function search(searchInput) {
+	//Do I need to go through and remove any existing elements with the .match class?
+
+	for (let i = 0; i < studentListArr.length; i++) {
+		if (
+			searchInput.length !== 0 &&
+			studentListArr[i].textContent.toLowerCase().includes(searchInput.toLowerCase())
+		) {
+			// studentList[i].classList.add('match');
+			studentListArr[i].style.display = 'block';
+			resultCount += 1;
+		} else {
+			//FIX ME: ADDING THE HTML IS A PROBLEM WHEN SEARCHING MORE THAN ONCE
+			studentListArr[i].style.display = 'none';
+			// const divPage = document.querySelector('div.page');
+			// let noMatchMessage = document.createElement('h3');
+			// noMatchMessage.textContent = 'No results found';
+			// divPage.append(noMatchMessage);
+		}
+	}
+	// document.querySelector('.match').style.display = 'block';
+	console.log(resultCount);
+}
+//add click event listener to the search BUTTON
+button.addEventListener('click', () => {
+	search(input.value);
+});
 
 //3. Paginate seach results
 
