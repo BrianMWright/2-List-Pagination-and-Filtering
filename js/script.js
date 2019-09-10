@@ -2,7 +2,7 @@
 const studentList = document.querySelectorAll('.student-item');
 const itemsPerPage = 10;
 
-//This function shows 10 items per page from the passed in list
+//This function shows 10 items per page from the list parameter
 function showPage(list, page) {
 	//index being with 0 - 10 for page 1, 10 - 20 for page 2, etc.
 	let startIndex = page * itemsPerPage - itemsPerPage;
@@ -18,6 +18,14 @@ function showPage(list, page) {
 }
 // This fucntion creates, selects and appends list items to the page as needed
 function appendPageLinks(list) {
+	let paginationSelect = document.querySelectorAll('div.pagination');
+
+	if (paginationSelect !== null) {
+		for (let i = 0; i < paginationSelect.length; i++) {
+			paginationSelect[i].remove();
+		}
+	}
+
 	const divPage = document.querySelector('div.page');
 	const div = document.createElement('div');
 	//Can't display partial pages. Ensures that the number returned is rounded up without any weird rounding errors
@@ -53,7 +61,7 @@ function appendPageLinks(list) {
 	}
 }
 
-//1. Create and append HTML dynamically for Search Bar
+//Create and append HTML dynamically for Search Bar
 const pageHeader = document.querySelector('div.page-header');
 const searchDiv = document.createElement('div');
 pageHeader.append(searchDiv);
@@ -68,14 +76,10 @@ button.textContent = 'Search';
 searchDiv.append(input);
 searchDiv.append(button);
 
-/*2. Add functionality to the Search Bar
-When the "Search" button is clicked, the list is filtered by student name for those that include 
-the search value. */
+//Storing the number of matched search results  to use for pagination
+const studentMatches = [];
 
-//We'll need to store the number of search results returned to use for pagination
-let resultCount = 0;
-const studentmatches = [];
-
+// Functionality for the search
 function search(searchInput) {
 	/* I created a new array with JUST the student names to search through, however I'm displaying
 	the results tied with their corresponding index in the studentList variable. */
@@ -83,9 +87,16 @@ function search(searchInput) {
 	const studentListArr = Array.from(studentNames);
 	const studentMatches = [];
 
+	//Checking for existence of error message, if exists , remove it
+	let errorMessgeCheck = document.querySelectorAll('h4');
+	if (errorMessgeCheck !== null) {
+		for (let i = 0; i < errorMessgeCheck.length; i++) {
+			errorMessgeCheck[i].remove();
+		}
+	}
+
 	//Searching through the list of names and displaying matches based on the value the user inputs into the search box
 	for (let i = 0; i < studentListArr.length; i++) {
-		console.log(`search input length is: ${searchInput.length}`);
 		if (
 			searchInput.length !== 0 &&
 			studentListArr[i].textContent.toLowerCase().includes(searchInput.toLowerCase())
@@ -98,12 +109,17 @@ function search(searchInput) {
 			studentList[i].style.display = 'none';
 		}
 	}
-	console.log(studentMatches);
-	console.log(studentMatches.length);
 
 	//Display pagination based on search results
-	appendPageLinks(showPage(studentMatches, 1));
-	// HELP! somehow I need to remove the starting state of pagination for each search
+	if (studentMatches.length === 0) {
+		const divPage = document.querySelector('div.page');
+		let noMatchMessage = document.createElement('h4');
+		noMatchMessage.textContent = 'No results found';
+		divPage.append(noMatchMessage);
+	} else {
+		appendPageLinks(studentMatches);
+		showPage(studentMatches, 1);
+	}
 }
 
 //allows search results to return in real time as user types in the seach box
@@ -115,9 +131,5 @@ button.addEventListener('click', () => {
 	search(input.value);
 });
 
-//4. Handle no results returned
-//If no matches are found, include a message in the HTML, "no results" must be printed to the page
-
-// *----------------------------------------*//
 showPage(studentList, 1);
 appendPageLinks(studentList);
