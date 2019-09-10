@@ -48,7 +48,7 @@ function appendPageLinks(list) {
 				allActive[i].classList.remove('active');
 				e.target.className = 'active';
 			}
-			showPage(studentList, a.textContent);
+			showPage(list, a.textContent);
 		});
 	}
 }
@@ -102,7 +102,7 @@ function search(searchInput) {
 	console.log(studentMatches.length);
 
 	//Display pagination based on search results
-	appendPageLinks(studentMatches);
+	appendPageLinks(showPage(studentMatches, 1));
 	// HELP! somehow I need to remove the starting state of pagination for each search
 }
 
