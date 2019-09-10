@@ -79,19 +79,21 @@ const studentmatches = [];
 function search(searchInput) {
 	/* I created a new array with JUST the student names to search through, however I'm displaying
 	the results tied with their corresponding index in the studentList variable. */
-
 	const studentNames = document.querySelectorAll('h3');
 	const studentListArr = Array.from(studentNames);
 	const studentMatches = [];
 
 	//Searching through the list of names and displaying matches based on the value the user inputs into the search box
 	for (let i = 0; i < studentListArr.length; i++) {
+		console.log(`search input length is: ${searchInput.length}`);
 		if (
 			searchInput.length !== 0 &&
 			studentListArr[i].textContent.toLowerCase().includes(searchInput.toLowerCase())
 		) {
 			studentList[i].style.display = 'block';
 			studentMatches.push(studentList[i]);
+		} else if (searchInput.length === 0) {
+			showPage(studentList, 1);
 		} else {
 			studentList[i].style.display = 'none';
 		}
