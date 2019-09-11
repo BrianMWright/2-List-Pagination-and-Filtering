@@ -76,9 +76,6 @@ button.textContent = 'Search';
 searchDiv.append(input);
 searchDiv.append(button);
 
-//Storing the number of matched search results  to use for pagination
-const studentMatches = [];
-
 // Functionality for the search
 function search(searchInput) {
 	/* I created a new array with JUST the student names to search through, however I'm displaying
@@ -111,7 +108,10 @@ function search(searchInput) {
 	}
 
 	//Display pagination based on search results
-	if (studentMatches.length === 0) {
+	if (input.value === '') {
+		showPage(studentList, 1);
+		appendPageLinks(studentList);
+	} else if (studentMatches.length === 0) {
 		const divPage = document.querySelector('div.page');
 		let noMatchMessage = document.createElement('h4');
 		noMatchMessage.textContent = 'No results found';
