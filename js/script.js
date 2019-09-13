@@ -18,6 +18,10 @@ function showPage(list, page) {
 }
 // This fucntion creates, selects and appends list items to the page as needed
 function appendPageLinks(list) {
+	const divPage = document.querySelector('div.page');
+	const div = document.createElement('div');
+	const pagesNeeded = Math.ceil(list.length / itemsPerPage);
+	const ul = document.createElement('ul');
 	let paginationSelect = document.querySelectorAll('div.pagination');
 
 	if (paginationSelect !== null) {
@@ -25,12 +29,6 @@ function appendPageLinks(list) {
 			paginationSelect[i].remove();
 		}
 	}
-
-	const divPage = document.querySelector('div.page');
-	const div = document.createElement('div');
-	//Can't display partial pages. Ensures that the number returned is rounded up without any weird rounding errors
-	const pagesNeeded = Math.ceil(list.length / itemsPerPage);
-	const ul = document.createElement('ul');
 
 	div.className = 'pagination';
 	divPage.append(div);
@@ -78,14 +76,12 @@ searchDiv.append(button);
 
 // Functionality for the search
 function search(searchInput) {
-	/* I created a new array with JUST the student names to search through, however I'm displaying
-	the results tied with their corresponding index in the studentList variable. */
 	const studentNames = document.querySelectorAll('h3');
 	const studentListArr = Array.from(studentNames);
 	const studentMatches = [];
-
 	//Checking for existence of error message, if exists , remove it
 	let errorMessgeCheck = document.querySelectorAll('h4');
+
 	if (errorMessgeCheck !== null) {
 		for (let i = 0; i < errorMessgeCheck.length; i++) {
 			errorMessgeCheck[i].remove();
